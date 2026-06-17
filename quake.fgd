@@ -1,0 +1,95 @@
+// ===================================================================
+// BASE CLASSES (Boxes removed to prevent white clutter)
+// ===================================================================
+
+@BaseClass = Appearflags [
+    spawnflags(flags) = [
+        1 : "Not in Easy" : 0
+        2 : "Not in Medium" : 0
+        4 : "Not in Hard" : 0
+        8 : "Not in Deathmatch" : 0
+    ]
+]
+
+@BaseClass = Targetname [
+    targetname(target_source) : "Name"
+]
+
+@BaseClass = Target [
+    target(target_destination) : "Target"
+]
+
+@BaseClass = QuakePickup
+[
+    output OnPlayerPickup(void) : "Fires when a player picks this item up."
+]
+
+// Removed the size() property from these definitions so they don't generate white volumes
+@BaseClass base(Appearflags, Target, Targetname, QuakePickup) color(0 0 255) = WeaponPickup []
+@BaseClass base(Appearflags, Target, Targetname, QuakePickup) color(200 0 0) = HealthPickup []
+@BaseClass base(Appearflags, Target, Targetname, QuakePickup) color(150 100 0) = AmmoPickup []
+@BaseClass base(Appearflags, Target, Targetname, QuakePickup) color(0 200 200) = ArmorPickup []
+@BaseClass base(Appearflags, Target, Targetname, QuakePickup) color(255 0 255) = PowerupPickup []
+
+// ===================================================================
+// 1. GUN PICKUPS
+// ===================================================================
+
+@PointClass base(WeaponPickup) studio("models/weapons/w_q1_axe.mdl") = q1_pickup_axe : "Axe" []
+@PointClass base(WeaponPickup) studio("models/weapons/w_q1_shot.mdl") = q1_pickup_shotgun : "Shotgun (Regular)" []
+@PointClass base(WeaponPickup) studio("models/weapons/w_q1_shot2.mdl") = q1_pickup_shotgun2 : "Double-barrelled Shotgun" []
+@PointClass base(WeaponPickup) studio("models/weapons/w_q1_nail.mdl") = q1_pickup_nailgun : "Nailgun" []
+@PointClass base(WeaponPickup) studio("models/weapons/w_q1_nail2.mdl") = q1_pickup_nailgun2 : "Perforator (Super Nailgun)" []
+@PointClass base(WeaponPickup) studio("models/weapons/w_q1_rock.mdl") = q1_pickup_grenadel : "Grenade Launcher" []
+@PointClass base(WeaponPickup) studio("models/weapons/w_q1_rock2.mdl") = q1_pickup_rocketl : "Rocket Launcher" []
+@PointClass base(WeaponPickup) studio("models/weapons/w_q1_light.mdl") = q1_pickup_light : "Thunderbolt (Lightning Gun)" []
+
+
+// ===================================================================
+// 2. ARMOR PICKUPS
+// ===================================================================
+
+@PointClass base(ArmorPickup) studio("models/items/quake1/armor1.mdl") = q1_item_armor1 : "Green Armor" []
+@PointClass base(ArmorPickup) studio("models/items/quake1/armor2.mdl") = q1_item_armor2 : "Yellow Armor" []
+@PointClass base(ArmorPickup) studio("models/items/quake1/armor3.mdl") = q1_item_armor3 : "Red Armor" []
+
+
+// ===================================================================
+// 3. HEALTH KITS
+// ===================================================================
+
+
+@PointClass base(HealthPickup) studio("models/items/quake1/item_bh10.mdl") = q1_item_health_10 : "Rotten Health (Small)" []
+@PointClass base(HealthPickup) studio("models/items/quake1/item_bh25.mdl") = q1_item_health_25 : "Regular Health Pack" []
+@PointClass base(HealthPickup) studio("models/items/quake1/item_bh100.mdl") = q1_item_health_100 : "Megahealth" []
+
+
+// ===================================================================
+// 4. AMMO BOXES
+// ===================================================================
+
+// Shells
+@PointClass base(AmmoPickup) studio("models/items/quake1/ammo_shell0.mdl") = q1_item_shells : "Small Shells" []
+@PointClass base(AmmoPickup) studio("models/items/quake1/ammo_shell1.mdl") = q1_item_shells1 : "Large Box of Shells" []
+
+// Nails/Spikes
+@PointClass base(AmmoPickup) studio("models/items/quake1/ammo_nail0.mdl") = q1_item_spikes : "Small Nails" []
+@PointClass base(AmmoPickup) studio("models/items/quake1/ammo_nail1.mdl") = q1_item_spikes1 : "Large Box of Nails" []
+
+// Rockets
+@PointClass base(AmmoPickup) studio("models/items/quake1/ammo_rock0.mdl") = q1_item_rockets : "Small Rockets" []
+@PointClass base(AmmoPickup) studio("models/items/quake1/ammo_rock1.mdl") = q1_item_rockets1 : "Large Box of Rockets" []
+
+// Cells/Batteries
+@PointClass base(AmmoPickup) studio("models/items/quake1/ammo_batt0.mdl") = q1_item_cells : "Small Cells" []
+@PointClass base(AmmoPickup) studio("models/items/quake1/ammo_batt1.mdl") = q1_item_cells1 : "Large Box of Cells" []
+
+
+// ===================================================================
+// 5. POWERUPS
+// ===================================================================
+
+@PointClass base(PowerupPickup) studio("models/items/quake1/invisibl.mdl") = q1_inv : "Ring of Shadows (Invisibility)" []
+@PointClass base(PowerupPickup) studio("models/items/quake1/invulner.mdl") = q1_protect : "Pentagram of Protection (Invulnerability)" []
+@PointClass base(PowerupPickup) studio("models/items/quake1/quaddama.mdl") = q1_quaddamage : "Quad Damage" []
+@PointClass base(PowerupPickup) studio("models/items/quake1/suit.mdl") = q1_biosuit : "Biosuit" []

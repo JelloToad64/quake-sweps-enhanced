@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/items/quake1/nail0top"
+	"$selfillum" 1
+}

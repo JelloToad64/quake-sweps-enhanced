@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$baseTexture" "sprites/q1lightning"
+	"$additive" "1"
+	"$vertexcolors" "1"
+	"$vertexalpha" "1"
+}

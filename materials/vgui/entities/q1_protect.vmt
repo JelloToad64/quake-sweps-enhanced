@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$basetexture" "vgui/entities/q1_protect"
+	"$vertexcolor" 1 
+	"$vertexalpha" 1 
+	"$nolod" 1 
+}

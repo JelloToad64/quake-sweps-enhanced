@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+	"$basetexture" "sprites\qpixel"
+	$vertexcolor 1
+	$vertexalpha 1
+	$NoFog 1
+	$NoCull 1
+}

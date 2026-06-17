@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{	
+	"$baseTexture" "models\akuld\qeranger\qeranger"
+	"$halflambert" "1"
+}

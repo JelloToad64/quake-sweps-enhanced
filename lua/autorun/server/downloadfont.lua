@@ -1,0 +1,1 @@
+resource.AddSingleFile("resource/fonts/dpquake.ttf")

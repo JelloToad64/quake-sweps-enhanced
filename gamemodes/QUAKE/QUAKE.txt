@@ -1,0 +1,9 @@
+"gamemode"
+{
+    "base"  "base"
+    "author" "Toad64"
+    "title" "QUAKE"
+    "maps" "q1_*"
+    "menusystem" "1"
+}
+

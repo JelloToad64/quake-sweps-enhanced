@@ -1,0 +1,27 @@
+18:47:20.555 INFO  Loading C:\Program Files (x86)\Steam\steamapps\common\GarrysMod\garrysmod\addons\quake_sweps\maps\q1dm1_beta1.bsp
+18:47:20.647 WARN  Lump LUMP_CUBEMAPS is empty
+18:47:20.654 WARN  Lump LUMP_CLIPPORTALVERTS is empty
+18:47:20.657 WARN  Lump LUMP_DISPINFO is empty
+18:47:20.660 WARN  Lump LUMP_DISP_VERTS is empty
+18:47:20.660 WARN  Lump LUMP_DISP_TRIS is empty
+18:47:20.661 WARN  Tried reading lump 'LUMP_DISP_MULTIBLEND', but it is not supported by the bsp's version
+18:47:20.670 WARN  Lump LUMP_OVERLAYS is empty
+18:47:20.671 WARN  Lump LUMP_OVERLAY_FADES is empty
+18:47:20.673 WARN  Lump LUMP_OVERLAY_SYSTEM_LEVELS is empty
+18:47:20.675 INFO  BSP version: 20
+18:47:20.676 INFO  Game: Half-Life 2: Deathmatch
+18:47:20.686 INFO  No areaportals to reallocate...
+18:47:20.688 INFO  No occluders to reallocate...
+18:47:20.818 INFO  1291 (38.8%) exact brushside->origface matches
+18:47:20.822 INFO  0/0 (nondisp/disp) original faces left after exact brushside->origface matching
+18:47:20.848 INFO  107 (3.2%) partial brushside->origface matches
+18:47:20.850 INFO  Writing brushes and planes
+18:47:21.007 INFO  Writing displacements
+18:47:21.007 INFO  Writing entities
+18:47:21.018 INFO  Writing func_details
+18:47:21.021 INFO  Writing func_viscluster
+18:47:21.025 INFO  Writing info_overlays
+18:47:21.025 INFO  Writing prop_statics
+18:47:21.025 INFO  Writing env_cubemaps
+18:47:21.025 INFO  Writing func_ladders
+18:47:21.029 INFO  Finished decompiling C:\Program Files (x86)\Steam\steamapps\common\GarrysMod\garrysmod\addons\quake_sweps\maps\q1dm1_beta1.bsp.

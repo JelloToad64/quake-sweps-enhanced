@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+	"$baseTexture" "models/weapons/quake1/v_nail"
+	"$selfillum" 1
+}
