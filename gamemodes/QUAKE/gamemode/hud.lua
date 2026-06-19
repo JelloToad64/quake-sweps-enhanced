@@ -26,14 +26,14 @@ function HUD()
         ammocolor = COLOR_RED
     end
 
-    draw.RoundedBox(10, (ScrW()/2)-(width/2), ScrH() - 100, width, 90, Color(50, 50, 50, 200))
+    -- draw.RoundedBox(10, (ScrW()/2)-(width/2), ScrH() - 100, width, 90, Color(50, 50, 50, 200))
     draw.SimpleText(""..client:Health(), "QuakeFontLarge", (ScrW()/2)-35, ScrH() - 55, healthcolor, 1, 0)
-    draw.SimpleText(""..client:Armor(), "QuakeFontLarge", (ScrW()/2)+180, ScrH() - 55, COLOR_QUAKE, 1, 0)
-    draw.SimpleText(ammotext, "QuakeFontLarge", (ScrW()/2)-180, ScrH() - 55, ammocolor, 1, 0)
+    draw.SimpleText(""..client:Armor(), "QuakeFontLarge", (ScrW()/2)+220, ScrH() - 55, COLOR_QUAKE, 1, 0)
+    draw.SimpleText(ammotext, "QuakeFontLarge", (ScrW()/2)-220, ScrH() - 55, ammocolor, 1, 0)
 
     draw.SimpleText("health", "QuakeFontLarge", (ScrW()/2)-35, ScrH() - 100, healthcolor, 1, 0)
-    draw.SimpleText("armor", "QuakeFontLarge", (ScrW()/2)+180, ScrH() - 100, COLOR_QUAKE, 1, 0)
-    draw.SimpleText("ammo", "QuakeFontLarge", (ScrW()/2)-180, ScrH() - 100, ammocolor, 1, 0)
+    draw.SimpleText("armor", "QuakeFontLarge", (ScrW()/2)+220, ScrH() - 100, COLOR_QUAKE, 1, 0)
+    draw.SimpleText("ammo", "QuakeFontLarge", (ScrW()/2)-220, ScrH() - 100, ammocolor, 1, 0)
 
 end
 hook.Add("HUDPaintBackground", "Hud", HUD)
@@ -48,44 +48,68 @@ end
 hook.Add("HUDShouldDraw", "HideDefaultHud", HideHud)
 
 -- vgui for player model
-BGPanel = vgui.Create("DPanel")
-BGPanel:SetPos((ScrW() / 2) + 35, ScrH() - 100)
-BGPanel:SetSize(90, 90)
-BGPanel:SetBackgroundColor(Color(0, 0, 0, 0))
+PMPanel = vgui.Create("DPanel")
+PMPanel:SetPos((ScrW() / 2) + 35, ScrH() - 100)
+PMPanel:SetSize(90, 90)
+PMPanel:SetBackgroundColor(Color(0, 255, 0, 255))
 
-local mdl = vgui.Create("DModelPanel", BGPanel)
-mdl:SetSize(BGPanel:GetSize())
+local mdl = vgui.Create("DModelPanel", PMPanel)
+mdl:SetSize(PMPanel:GetSize())
+mdl:SetModel("models/player/quakeguy.mdl")
 
--- Turn off default rotation behavior
-function mdl:LayoutEntity(ent)
-    return
+mdl:SetCamPos(Vector(12, 0, 64))   -- Camera position (X, Y, Z)
+mdl:SetLookAt(Vector(0, 0, 64))    -- Where the camera points (X, Y, Z)
+mdl:SetFOV(90)                     -- FOV (Lower = closer)
+
+local ent = mdl.Entity
+if IsValid(ent) then
+    ent:SetEyeTarget(Vector(12, 0, 64))
 end
 
-function mdl:Think()
+function mdl:LayoutEntity(ent) return end
+
+-- vgui for armor
+ArmPanel = vgui.Create("DPanel")
+ArmPanel:SetPos((ScrW() / 2) + 280, ScrH() - 100)
+ArmPanel:SetSize(90, 90)
+ArmPanel:SetBackgroundColor(Color(0, 255, 0, 0))
+
+local armor = vgui.Create("DModelPanel", ArmPanel)
+armor:SetSize(ArmPanel:GetSize())
+armor:SetModel("models/items/quake1/armor1.mdl")
+armor:SetVisible(false)
+
+armor:SetCamPos(Vector(-90, 0, 50))   -- Camera position (X, Y, Z)
+armor:SetLookAt(Vector(64, 0, 0))    -- Where the camera points (X, Y, Z)
+armor:SetFOV(25)  
+
+function armor:Think()
     local ply = LocalPlayer()
     if not IsValid(ply) then return end
 
-    local currentModel = ply:GetModel()
+    local currentArmor = ply:Armor()
 
-    -- Only rebuild the camera and model if the player's model actually changes
-    if self.LastModel ~= currentModel then
-        self:SetModel(currentModel)
-        self.LastModel = currentModel
+    -- If armor is 0, turn the panel off completely
+    if currentArmor <= 0 then
+        if self:IsVisible() then self:SetVisible(false) end
+        return
+    else
+        if not self:IsVisible() then self:SetVisible(true) end
+    end
 
-        local ent = self.Entity
-        if IsValid(ent) then
-            -- Safely search for the classic Source head bone
-            local headBone = ent:LookupBone("ValveBiped.Bip01_Head1") or ent:LookupBone("ValveBIP01.Bip01_Head1")
-            local eyepos = Vector(3, 0, 66) -- Reliable fallback height if bone isn't found immediately
+    -- Check what tier the player has active
+    local activeTier = ply:GetNWInt("QuakeArmorTier", 1)
+    local targetModel = "models/items/quake1/armor1.mdl" -- Default Green
 
-            if headBone then
-                eyepos = ent:GetBonePosition(headBone) + Vector(3, 0, 2)
-            end
+    if activeTier == 2 then
+        targetModel = "models/items/quake1/armor2.mdl" -- Yellow
+    elseif activeTier == 3 then
+        targetModel = "models/items/quake1/armor3.mdl" -- Red
+    end
 
-            -- Apply your exact camera placement rules relative to the head
-            self:SetLookAt(eyepos)
-            self:SetCamPos(eyepos - Vector(-12, 0, 0)) -- Uses your specific offset
-            ent:SetEyeTarget(eyepos - Vector(-12, 0, 0))
-        end
+    -- Only update the model if it actually changed to save performance
+    if self.CurrentModel ~= targetModel then
+        self:SetModel(targetModel)
+        self.CurrentModel = targetModel
     end
 end
