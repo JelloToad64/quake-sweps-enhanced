@@ -20,3 +20,15 @@ function GM:PlayerSpawn(ply)
         ply:Give("weapon_q1_shotgun")
     end
 end
+
+concommand.Add("quake_giveall", function(ply, cmd, args)
+    if not IsValid(ply) or not ply:IsPlayer() then return end
+    ply:Give("weapon_q1_axe")
+    ply:Give("weapon_q1_shotgun")
+    ply:Give("weapon_q1_supershotgun")
+    ply:Give("weapon_q1_nailgun")
+    ply:Give("weapon_q1_supernailgun")
+    ply:Give("weapon_q1_rocketlauncher")
+    ply:Give("weapon_q1_grenadelauncher")
+    ply:Give("weapon_q1_lightninggun")
+end)

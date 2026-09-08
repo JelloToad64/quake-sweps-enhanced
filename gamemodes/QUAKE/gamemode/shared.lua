@@ -1,7 +1,7 @@
 GM.Name = "QUAKE"
 GM.Author = "Toad64"
 
-DeriveGamemode("base")
+DeriveGamemode("sandbox")
 
 function GM:Initialize()
     -- do stuff

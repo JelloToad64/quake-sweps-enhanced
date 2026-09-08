@@ -1,5 +1,5 @@
-local COLOR_QUAKE  = Color(220, 140, 40, 255)
-local COLOR_RED    = Color(255, 0, 0, 255)
+local COLOR_QUAKE  = Color(131, 82, 22)
+local COLOR_RED    = Color(131, 23, 23)
 
 function HUD()
     local client = LocalPlayer()
@@ -26,14 +26,14 @@ function HUD()
         ammocolor = COLOR_RED
     end
 
-    draw.RoundedBox(10, (ScrW()/2)-(width/2), ScrH() - 100, width, 90, Color(50, 50, 50, 200))
-    draw.SimpleText(""..client:Health(), "QuakeFontLarge", (ScrW()/2)-35, ScrH() - 55, healthcolor, 1, 0)
-    draw.SimpleText(""..client:Armor(), "QuakeFontLarge", (ScrW()/2)+220, ScrH() - 55, COLOR_QUAKE, 1, 0)
-    draw.SimpleText(ammotext, "QuakeFontLarge", (ScrW()/2)-220, ScrH() - 55, ammocolor, 1, 0)
+    draw.RoundedBox(10, (ScrW()/2)-(width/2), ScrH() - 100, width, 90, Color(75, 73, 73, 187))
+    draw.SimpleText(""..client:Health(), "QuakeFontLarge", (ScrW()/2)+40, ScrH() - 55, healthcolor, 1, 0)
+    draw.SimpleText(""..client:Armor(), "QuakeFontLarge", (ScrW()/2)-205, ScrH() - 55, COLOR_QUAKE, 1, 0)
+    draw.SimpleText(ammotext, "QuakeFontLarge", (ScrW()/2)+290, ScrH() - 55, ammocolor, 1, 0)
 
-    draw.SimpleText("health", "QuakeFontLarge", (ScrW()/2)-35, ScrH() - 100, healthcolor, 1, 0)
-    draw.SimpleText("armor", "QuakeFontLarge", (ScrW()/2)+220, ScrH() - 100, COLOR_QUAKE, 1, 0)
-    draw.SimpleText("ammo", "QuakeFontLarge", (ScrW()/2)-220, ScrH() - 100, ammocolor, 1, 0)
+    draw.SimpleText("health", "QuakeFontLarge", (ScrW()/2)+40, ScrH() - 100, healthcolor, 1, 0)
+    draw.SimpleText("armor", "QuakeFontLarge", (ScrW()/2)-205, ScrH() - 100, COLOR_QUAKE, 1, 0)
+    draw.SimpleText("ammo", "QuakeFontLarge", (ScrW()/2)+290, ScrH() - 100, ammocolor, 1, 0)
 
 end
 hook.Add("HUDPaintBackground", "Hud", HUD)
@@ -50,9 +50,9 @@ hook.Add("HUDShouldDraw", "HideDefaultHud", HideHud)
 -- vgui for player model
 
 PMPanel = vgui.Create("DPanel")
-PMPanel:SetPos((ScrW() / 2) + 35, ScrH() - 100)
+PMPanel:SetPos((ScrW() / 2) - 130, ScrH() - 100)
 PMPanel:SetSize(90, 90)
-PMPanel:SetBackgroundColor(Color(0, 255, 0, 255))
+-- PMPanel:SetBackgroundColor(Color(0, 255, 0, 255))
 
 local mdl = vgui.Create("DModelPanel", PMPanel)
 mdl:SetSize(PMPanel:GetSize())
@@ -71,66 +71,65 @@ function mdl:LayoutEntity(ent) return end
 
 -- vgui for armor
 ArmPanel = vgui.Create("DPanel")
-ArmPanel:SetPos((ScrW() / 2) + 280, ScrH() - 100)
+ArmPanel:SetPos((ScrW() / 2) -370, ScrH() - 100)
 ArmPanel:SetSize(90, 90)
-ArmPanel:SetBackgroundColor(Color(0, 255, 0))
+-- ArmPanel:SetBackgroundColor(Color(0, 255, 0))
 
 local armor = vgui.Create("DModelPanel", ArmPanel)
 armor:SetSize(ArmPanel:GetSize())
-armor:SetModel("models/items/quake1/armor1.mdl")
+armor:SetAmbientLight(Color(255, 255, 255))
 armor:SetVisible(true)
 
 armor:SetCamPos(Vector(-90, 0, 50))   -- Camera position (X, Y, Z)
 armor:SetLookAt(Vector(64, 0, 0))    -- Where the camera points (X, Y, Z)
 armor:SetFOV(25)  
 
+local armortype = {
+    [0] = "",
+    [1] = "models/items/quake1/armor1.mdl",
+    [2] = "models/items/quake1/armor2.mdl",
+    [3] = "models/items/quake1/armor3.mdl"
+}
+
 function armor:Think()
     local ply = LocalPlayer()
     if not IsValid(ply) then return end
 
-    -- 1. Get the raw value
-    local activeTier = ply:GetNWInt("QuakeArmorTier", 0)
-    
-    -- 2. Defensive check: If armor > 0 but Tier is 0, something is broken. 
-    -- Force a refresh or default to Tier 1 if the player has armor but no tier is set.
-    if ply:Armor() > 0 and activeTier == 0 then
-        activeTier = 1 
-    end
+    local armorTier = ply:GetNWInt("ArmorTier", 0)
+    local targetModel = armortype[armorTier] or ""
 
-    -- 3. Calculate model path safely
-    local models = {
-        [1] = "models/items/quake1/armor1.mdl",
-        [2] = "models/items/quake1/armor2.mdl",
-        [3] = "models/items/quake1/armor3.mdl"
-    }
-    local targetModel = models[activeTier] or models[1]
-
-    -- 4. Only update if the entity is actually valid and needs a change
-    if self.CurrentModel ~= targetModel then
-        self:SetModel(targetModel)
-        self.CurrentModel = targetModel
-        
-        -- Reset the entity view if it exists
-        if IsValid(self.Entity) then
-            self.Entity:SetAngles(Angle(0, 45, 0)) -- Set a standard rotation
-        end
-    end
-    
-    -- 5. Visibility toggle
-    self:SetVisible(ply:Armor() > 0)
+    armor:SetModel(targetModel)
 end
-
 -- vgui for ammo
 AmmoPanel = vgui.Create("DPanel")
-AmmoPanel:SetPos((ScrW() / 2) - 370, ScrH() - 100)
+AmmoPanel:SetPos((ScrW() / 2) + 120, ScrH() - 100)
 AmmoPanel:SetSize(90, 90)
-AmmoPanel:SetBackgroundColor(Color(0, 255, 0))
+-- AmmoPanel:SetBackgroundColor(Color(0, 255, 0))
 
 local ammo = vgui.Create("DModelPanel", AmmoPanel)
 ammo:SetSize(ArmPanel:GetSize())
-ammo:SetModel("models/items/quake1/armor1.mdl")
+ammo:SetAmbientLight(Color(255, 255, 255))
+ammo:SetModel("models/items/quake1/ammo_shell0.mdl")
 ammo:SetVisible(true)
 
-ammo:SetCamPos(Vector(-90, 0, 50))   -- Camera position (X, Y, Z)
-ammo:SetLookAt(Vector(64, 0, 0))    -- Where the camera points (X, Y, Z)
-ammo:SetFOV(25)  
+ammo:SetCamPos(Vector(-90, 0, 30))   -- Camera position (X, Y, Z)
+ammo:SetLookAt(Vector(90, 0, 0))    -- Where the camera points (X, Y, Z)
+ammo:SetFOV(30)
+
+local ammotype = {
+    [-1] = "",
+    [44] = "models/items/quake1/ammo_shell0.mdl",
+    [41] = "models/items/quake1/ammo_nail0.mdl",
+    [43] = "models/items/quake1/ammo_rock0.mdl",
+    [38] = "models/items/quake1/ammo_batt0.mdl"
+}
+
+function ammo:Think()
+    local ply = LocalPlayer()
+    if not IsValid(ply) then return end
+
+    local ammoID = ply:GetActiveWeapon():GetPrimaryAmmoType()
+    local targetModel = ammotype[ammoID] or "models/items/quake1/ammo_shell0.mdl"
+
+    ammo:SetModel(targetModel)
+end

@@ -43,5 +43,12 @@ function ENT:Touch(ent)
 		end
 		self:PlaySound(self.PickupSound, 85, math.random(99,101), self.PickupSoundHQ, ent)
 		ent:SetArmor(math.min(ent:Armor() + self.Aamount, self.MaxArmor))
+		if self.MaxArmor == 100 then
+			ent:SetNWInt("ArmorTier", 1)
+		elseif self.MaxArmor == 150 then
+			ent:SetNWInt("ArmorTier", 2)
+		elseif self.MaxArmor == 200 then
+			ent:SetNWInt("ArmorTier", 3)
+		end
 	end
 end
