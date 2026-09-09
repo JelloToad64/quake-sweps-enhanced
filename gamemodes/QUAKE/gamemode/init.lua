@@ -15,13 +15,13 @@ function GM:PlayerSpawn(ply)
     
     ply:SetupHands()
 
-    if game.GetMap() != "q1_training" then
-        ply:Give("weapon_q1_axe")
-        ply:Give("weapon_q1_shotgun")
-    end
+    -- if game.GetMap() != "q1_training" then
+    --     ply:Give("weapon_q1_axe")
+    --     ply:Give("weapon_q1_shotgun")
+    -- end
 end
 
-concommand.Add("meru_mode", function(ply, cmd, args)
+concommand.Add("q1_meru_mode", function(ply, cmd, args)
     if not IsValid(ply) or not ply:IsPlayer() then return end
     local mode = tonumber(args[1]) or 0
     SetGlobalInt("meru_active", mode)
@@ -39,7 +39,7 @@ concommand.Add("meru_mode", function(ply, cmd, args)
     end
 end)
 
-concommand.Add("quake_giveall", function(ply, cmd, args)
+concommand.Add("q1_giveall", function(ply, cmd, args)
     local cheatsEnabled = GetConVar("sv_cheats"):GetInt()
     if cheatsEnabled == 0 then
         ply:ChatPrint("You must enable cheats to use this command.")
